@@ -5,15 +5,18 @@ import { Colors } from '@/constants/theme';
 
 export default function AppTabs() {
   const scheme = useColorScheme();
-  const colors = Colors[scheme === 'unspecified' ? 'light' : scheme];
+  const colors = Colors[scheme === 'dark' ? 'dark' : 'light'];
 
   return (
     <NativeTabs
       backgroundColor={colors.background}
       indicatorColor={colors.backgroundElement}
-      labelStyle={{ selected: { color: colors.text } }}
+      labelStyle={{
+        selected: {
+          color: colors.text,
+        },
+      }}
     >
-      {/* Home */}
       <NativeTabs.Trigger name="index">
         <NativeTabs.Trigger.Label hidden />
         <NativeTabs.Trigger.Icon
@@ -28,7 +31,6 @@ export default function AppTabs() {
         />
       </NativeTabs.Trigger>
 
-      {/* Reels-style screen */}
       <NativeTabs.Trigger name="create">
         <NativeTabs.Trigger.Label hidden />
         <NativeTabs.Trigger.Icon
@@ -43,7 +45,6 @@ export default function AppTabs() {
         />
       </NativeTabs.Trigger>
 
-      {/* Messages-style screen */}
       <NativeTabs.Trigger name="activity">
         <NativeTabs.Trigger.Label hidden />
         <NativeTabs.Trigger.Icon
@@ -58,7 +59,6 @@ export default function AppTabs() {
         />
       </NativeTabs.Trigger>
 
-      {/* Search */}
       <NativeTabs.Trigger name="search">
         <NativeTabs.Trigger.Label hidden />
         <NativeTabs.Trigger.Icon
@@ -67,7 +67,6 @@ export default function AppTabs() {
         />
       </NativeTabs.Trigger>
 
-      {/* Profile */}
       <NativeTabs.Trigger name="profile">
         <NativeTabs.Trigger.Label hidden />
         <NativeTabs.Trigger.Icon
