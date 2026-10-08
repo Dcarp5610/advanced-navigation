@@ -94,10 +94,25 @@ The bottom navigation contains:
 
 Home / Search / Profile → Post Details
 
+## AI Usage
+
+AI tools were used throughout the development of this project as a development support resource.
+
+AI assistance was used for:
+
+- Understanding and explaining Expo and React Native concepts
+- Troubleshooting errors and debugging issues
+- Assisting with Expo Router and navigation implementation
+- Reviewing and improving React Native and TypeScript code
+- Providing suggestions for UI layout and styling
+- Helping organize reusable components
+- Assisting with project documentation and README creation
+
+AI was used as a development aid, while the project was built and integrated by me. I reviewed, modified, tested, and adapted the AI-assisted code and suggestions to meet the assignment requirements and the intended design.
 
 ## Project Structure
 
-
+```text
 OOTDApp
 ├── assets
 │   ├── Outfits
@@ -134,18 +149,4 @@ OOTDApp
 ├── package.json
 └── README.md
 
-## AI Usage
 
-AI tools were used throughout the development of this project as a development support resource.
-
-AI assistance was used for:
-
-- Understanding and explaining Expo and React Native concepts
-- Troubleshooting errors and debugging issues
-- Assisting with Expo Router and navigation implementation
-- Reviewing and improving React Native and TypeScript code
-- Providing suggestions for UI layout and styling
-- Helping organize reusable components
-- Assisting with project documentation and README creation
-
-AI was used as a development aid, while the project was built and integrated by me. I reviewed, modified, tested, and adapted the AI-assisted code and suggestions to meet the assignment requirements and the intended design.
