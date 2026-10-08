@@ -97,7 +97,7 @@ Home / Search / Profile → Post Details
 
 ## Project Structure
 
-```text
+
 OOTDApp
 ├── assets
 │   ├── Outfits
