@@ -143,6 +143,7 @@ AI was used as a development aid, while the project was built and integrated by 
 
 ## Project Structure
 
+```text
 OOTDApp
 ├── assets
 │   ├── Outfits
