@@ -1,5 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import {
   Image,
   Pressable,
@@ -11,6 +11,7 @@ import {
 
 import { Colors } from '@/constants/theme';
 import { Post } from '@/data/post';
+import { usePostInteractions } from './PostInteractionContext';
 
 interface PostCardProps {
   post: Post;
@@ -24,28 +25,30 @@ export default function PostCard({
   const colorScheme = useColorScheme();
   const theme = Colors[colorScheme === 'dark' ? 'dark' : 'light'];
 
-  const [liked, setLiked] = useState(false);
-  const [reposted, setReposted] = useState(false);
+  const {
+    getInteraction,
+    toggleLike,
+    toggleRepost,
+  } = usePostInteractions();
+
+  const interaction = getInteraction(post.id);
 
   const lastTap = useRef(0);
 
-  const likeCount = liked ? post.likes + 1 : post.likes;
-  const repostCount = reposted ? post.shares + 1 : post.shares;
+  const likeCount = interaction.liked
+    ? post.likes + 1
+    : post.likes;
 
-  const handleLike = () => {
-    setLiked((current) => !current);
-  };
-
-  const handleRepost = () => {
-    setReposted((current) => !current);
-  };
+  const repostCount = interaction.reposted
+    ? post.shares + 1
+    : post.shares;
 
   const handleImagePress = () => {
     const now = Date.now();
     const timeSinceLastTap = now - lastTap.current;
 
     if (timeSinceLastTap < 300) {
-      handleLike();
+      toggleLike(post.id);
       lastTap.current = 0;
       return;
     }
@@ -70,7 +73,12 @@ export default function PostCard({
         />
 
         <View style={styles.headerInfo}>
-          <Text style={[styles.username, { color: theme.text }]}>
+          <Text
+            style={[
+              styles.username,
+              { color: theme.text },
+            ]}
+          >
             {post.username}
           </Text>
 
@@ -94,18 +102,37 @@ export default function PostCard({
       </View>
 
       <Pressable onPress={handleImagePress}>
-        <Image source={post.image} style={styles.image} />
+        <Image
+          source={post.image}
+          style={styles.image}
+        />
       </Pressable>
 
       <View style={styles.actions}>
-        <Pressable style={styles.actionItem} onPress={handleLike}>
+        <Pressable
+          style={styles.actionItem}
+          onPress={() => toggleLike(post.id)}
+        >
           <Ionicons
-            name={liked ? 'heart' : 'heart-outline'}
+            name={
+              interaction.liked
+                ? 'heart'
+                : 'heart-outline'
+            }
             size={27}
-            color={liked ? '#ed4956' : theme.text}
+            color={
+              interaction.liked
+                ? '#ed4956'
+                : theme.text
+            }
           />
 
-          <Text style={[styles.number, { color: theme.text }]}>
+          <Text
+            style={[
+              styles.number,
+              { color: theme.text },
+            ]}
+          >
             {likeCount}
           </Text>
         </Pressable>
@@ -117,19 +144,36 @@ export default function PostCard({
             color={theme.text}
           />
 
-          <Text style={[styles.number, { color: theme.text }]}>
+          <Text
+            style={[
+              styles.number,
+              { color: theme.text },
+            ]}
+          >
             {post.comments}
           </Text>
         </View>
 
-        <Pressable style={styles.actionItem} onPress={handleRepost}>
+        <Pressable
+          style={styles.actionItem}
+          onPress={() => toggleRepost(post.id)}
+        >
           <Ionicons
             name="repeat-outline"
             size={27}
-            color={reposted ? '#0095f6' : theme.text}
+            color={
+              interaction.reposted
+                ? '#0095f6'
+                : theme.text
+            }
           />
 
-          <Text style={[styles.number, { color: theme.text }]}>
+          <Text
+            style={[
+              styles.number,
+              { color: theme.text },
+            ]}
+          >
             {repostCount}
           </Text>
         </Pressable>
@@ -141,7 +185,12 @@ export default function PostCard({
             color={theme.text}
           />
 
-          <Text style={[styles.number, { color: theme.text }]}>
+          <Text
+            style={[
+              styles.number,
+              { color: theme.text },
+            ]}
+          >
             {post.shares}
           </Text>
         </View>
@@ -157,11 +206,21 @@ export default function PostCard({
 
       <View style={styles.content}>
         <View style={styles.captionContainer}>
-          <Text style={[styles.username, { color: theme.text }]}>
+          <Text
+            style={[
+              styles.username,
+              { color: theme.text },
+            ]}
+          >
             {post.username}
           </Text>
 
-          <Text style={[styles.caption, { color: theme.text }]}>
+          <Text
+            style={[
+              styles.caption,
+              { color: theme.text },
+            ]}
+          >
             {' '}
             {post.caption}
           </Text>
@@ -176,34 +235,41 @@ const styles = StyleSheet.create({
     marginBottom: 12,
     borderBottomWidth: 1,
   },
+
   header: {
     height: 56,
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 12,
   },
+
   profilePicture: {
     width: 36,
     height: 36,
     borderRadius: 18,
   },
+
   headerInfo: {
     flex: 1,
     marginLeft: 10,
   },
+
   username: {
     fontSize: 14,
     fontWeight: '600',
   },
+
   location: {
     fontSize: 12,
     marginTop: 2,
   },
+
   image: {
     width: '100%',
     height: 400,
     resizeMode: 'cover',
   },
+
   actions: {
     height: 58,
     flexDirection: 'row',
@@ -211,24 +277,30 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
     gap: 16,
   },
+
   actionItem: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 5,
   },
+
   number: {
     fontSize: 13,
   },
+
   spacer: {
     flex: 1,
   },
+
   content: {
     paddingHorizontal: 12,
     paddingBottom: 14,
   },
+
   captionContainer: {
     flexDirection: 'row',
   },
+
   caption: {
     fontSize: 14,
     flex: 1,

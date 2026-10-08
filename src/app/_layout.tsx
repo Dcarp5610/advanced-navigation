@@ -8,6 +8,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { useColorScheme } from 'react-native';
 
 import { AnimatedSplashOverlay } from '@/components/animated-icon';
+import { PostInteractionProvider } from '@/components/PostInteractionContext';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -18,12 +19,14 @@ export default function RootLayout() {
     <ThemeProvider
       value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
     >
-      <AnimatedSplashOverlay />
+      <PostInteractionProvider>
+        <AnimatedSplashOverlay />
 
-      <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="(tabs)" />
-        <Stack.Screen name="post/[id]" />
-      </Stack>
+        <Stack screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="(tabs)" />
+          <Stack.Screen name="post/[id]" />
+        </Stack>
+      </PostInteractionProvider>
     </ThemeProvider>
   );
 }
