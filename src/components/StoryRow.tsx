@@ -1,46 +1,67 @@
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import {
+  Image,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  useColorScheme,
+} from 'react-native';
+
+import { Colors } from '@/constants/theme';
 
 const stories = [
   {
     id: 1,
     username: 'Your Story',
-    initials: 'You',
+    image: 'https://picsum.photos/100/100?random=208',
+    ownStory: true,
   },
   {
     id: 2,
     username: 'alex.m',
-    initials: 'AM',
+    image: 'https://picsum.photos/100/100?random=202',
+    ownStory: false,
   },
   {
     id: 3,
     username: 'sarah.lee',
-    initials: 'SL',
+    image: 'https://picsum.photos/100/100?random=203',
+    ownStory: false,
   },
   {
     id: 4,
     username: 'mike.travels',
-    initials: 'MT',
+    image: 'https://picsum.photos/100/100?random=204',
+    ownStory: false,
   },
   {
     id: 5,
     username: 'jess.eats',
-    initials: 'JE',
+    image: 'https://picsum.photos/100/100?random=205',
+    ownStory: false,
   },
   {
     id: 6,
     username: 'daniel.daily',
-    initials: 'DD',
-  },
-  {
-    id: 7,
-    username: 'emily.jpg',
-    initials: 'EJ',
+    image: 'https://picsum.photos/100/100?random=206',
+    ownStory: false,
   },
 ];
 
 export default function StoryRow() {
+  const colorScheme = useColorScheme();
+  const theme = Colors[colorScheme === 'dark' ? 'dark' : 'light'];
+
   return (
-    <View style={styles.container}>
+    <View
+      style={[
+        styles.container,
+        {
+          backgroundColor: theme.background,
+          borderBottomColor: theme.border,
+        },
+      ]}
+    >
       <ScrollView
         horizontal
         showsHorizontalScrollIndicator={false}
@@ -48,11 +69,42 @@ export default function StoryRow() {
       >
         {stories.map((story) => (
           <View key={story.id} style={styles.story}>
-            <View style={styles.storyCircle}>
-              <Text style={styles.initials}>{story.initials}</Text>
+            <View style={styles.storyBorder}>
+              <Image
+                source={{ uri: story.image }}
+                style={styles.storyImage}
+              />
+
+              {story.ownStory && (
+                <View
+                  style={[
+                    styles.addButton,
+                    {
+                      backgroundColor:
+                        colorScheme === 'dark' ? '#ffffff' : '#000000',
+                      borderColor: theme.background,
+                    },
+                  ]}
+                >
+                  <Text
+                    style={[
+                      styles.addText,
+                      {
+                        color:
+                          colorScheme === 'dark' ? '#000000' : '#ffffff',
+                      },
+                    ]}
+                  >
+                    +
+                  </Text>
+                </View>
+              )}
             </View>
 
-            <Text style={styles.username} numberOfLines={1}>
+            <Text
+              style={[styles.username, { color: theme.text }]}
+              numberOfLines={1}
+            >
               {story.username}
             </Text>
           </View>
@@ -64,42 +116,52 @@ export default function StoryRow() {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#ffffff',
     borderBottomWidth: 1,
-    borderBottomColor: '#eeeeee',
   },
-
   storyList: {
     paddingHorizontal: 12,
-    paddingVertical: 12,
+    paddingVertical: 14,
   },
-
   story: {
-    width: 72,
+    width: 100,
     alignItems: 'center',
-    marginRight: 8,
+    marginRight: 2,
   },
-
-  storyCircle: {
-    width: 58,
-    height: 58,
-    borderRadius: 29,
-    backgroundColor: '#1689c7',
+  storyBorder: {
+    width: 88,
+    height: 88,
+    borderRadius: 44,
+    borderWidth: 3,
+    borderColor: '#d62976',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 5,
+    position: 'relative',
+    marginBottom: 7,
   },
-
-  initials: {
-    color: '#ffffff',
-    fontSize: 13,
-    fontWeight: '600',
+  storyImage: {
+    width: 78,
+    height: 78,
+    borderRadius: 39,
   },
-
+  addButton: {
+    position: 'absolute',
+    right: -2,
+    bottom: -2,
+    width: 27,
+    height: 27,
+    borderRadius: 14,
+    borderWidth: 2,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  addText: {
+    fontSize: 22,
+    fontWeight: '400',
+    lineHeight: 24,
+  },
   username: {
-    fontSize: 11,
-    color: '#333333',
-    maxWidth: 68,
+    fontSize: 12,
+    maxWidth: 94,
     textAlign: 'center',
   },
 });

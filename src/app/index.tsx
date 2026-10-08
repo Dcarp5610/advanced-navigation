@@ -1,22 +1,48 @@
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import {
+  FlatList,
+  StyleSheet,
+  Text,
+  View,
+  useColorScheme,
+} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import PostCard from '@/components/PostCard';
-import StoryRow from '../components/StoryRow';
+import { Colors } from '@/constants/theme';
 import { homePosts } from '@/data/post';
+import StoryRow from '../components/StoryRow';
 
 export default function HomeScreen() {
+  const colorScheme = useColorScheme();
+  const theme = Colors[colorScheme === 'dark' ? 'dark' : 'light'];
+
   return (
-    <SafeAreaView style={styles.container} edges={['top']}>
-      {/* Home header */}
-      <View style={styles.header}>
-        <Text style={styles.logo}>OOTD Everyday</Text>
+    <SafeAreaView
+      style={[styles.container, { backgroundColor: theme.background }]}
+      edges={['top']}
+    >
+      <View
+        style={[
+          styles.header,
+          {
+            backgroundColor: theme.background,
+            borderBottomColor: theme.border,
+          },
+        ]}
+      >
+        <Text style={[styles.headerButton, { color: theme.text }]}>+</Text>
+
+        <Text style={[styles.logo, { color: theme.text }]}>
+          Instagram
+        </Text>
+
+        <Text style={[styles.headerButton, { color: theme.text }]}>
+          ♡
+        </Text>
       </View>
 
-      {/* Stories */}
       <StoryRow />
 
-      {/* Home feed */}
       <FlatList
         data={homePosts}
         keyExtractor={(item) => item.id.toString()}
@@ -27,6 +53,7 @@ export default function HomeScreen() {
           />
         )}
         showsVerticalScrollIndicator={false}
+        style={{ backgroundColor: theme.background }}
       />
     </SafeAreaView>
   );
@@ -35,20 +62,24 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#ffffff',
   },
-
   header: {
-    height: 56,
+    height: 64,
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 16,
+    justifyContent: 'space-between',
+    paddingHorizontal: 18,
     borderBottomWidth: 1,
-    borderBottomColor: '#eeeeee',
   },
-
+  headerButton: {
+    fontSize: 36,
+    fontWeight: '300',
+    width: 50,
+    textAlign: 'center',
+  },
   logo: {
-    fontSize: 22,
-    fontWeight: '700',
+    fontSize: 26,
+    fontWeight: '600',
+    letterSpacing: -1,
   },
 });

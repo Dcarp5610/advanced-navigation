@@ -1,6 +1,14 @@
-import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import {
+  Image,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+  useColorScheme,
+} from 'react-native';
 
-import { Post } from "@/data/post";
+import { Colors } from '@/constants/theme';
+import { Post } from '@/data/post';
 
 interface PostCardProps {
   post: Post;
@@ -8,45 +16,78 @@ interface PostCardProps {
 }
 
 export default function PostCard({ post, onPress }: PostCardProps) {
+  const colorScheme = useColorScheme();
+  const theme = Colors[colorScheme === 'dark' ? 'dark' : 'light'];
+
   return (
-    <View style={styles.container}>
-      {/* Post header */}
+    <View
+      style={[
+        styles.container,
+        {
+          backgroundColor: theme.background,
+          borderBottomColor: theme.border,
+        },
+      ]}
+    >
       <View style={styles.header}>
-        <View style={styles.profilePicture}>
-          <Text style={styles.profileText}>
-            {post.username
-              .split(".")
-              .map((part) => part[0])
-              .join("")
-              .toUpperCase()}
-          </Text>
-        </View>
+        <Image
+          source={{ uri: post.profileImage }}
+          style={styles.profilePicture}
+        />
 
         <View style={styles.headerInfo}>
-          <Text style={styles.username}>{post.username}</Text>
-          <Text style={styles.location}>{post.location}</Text>
+          <Text style={[styles.username, { color: theme.text }]}>
+            {post.username}
+          </Text>
+
+          <Text style={[styles.location, { color: theme.secondaryText }]}>
+            {post.location}
+          </Text>
         </View>
       </View>
 
-      {/* Post image */}
       <Pressable onPress={onPress}>
         <Image source={post.image} style={styles.image} />
       </Pressable>
 
-      {/* Action buttons */}
       <View style={styles.actions}>
-        <Text style={styles.actionText}>Like</Text>
-        <Text style={styles.actionText}>Comment</Text>
-        <Text style={styles.actionText}>Share</Text>
+        <View style={styles.actionItem}>
+          <Text style={[styles.action, { color: theme.text }]}>♡</Text>
+          <Text style={[styles.number, { color: theme.text }]}>
+            {post.likes}
+          </Text>
+        </View>
+
+        <View style={styles.actionItem}>
+          <Text style={[styles.action, { color: theme.text }]}>○</Text>
+          <Text style={[styles.number, { color: theme.text }]}>
+            {post.comments}
+          </Text>
+        </View>
+
+        <View style={styles.actionItem}>
+          <Text style={[styles.action, { color: theme.text }]}>➤</Text>
+          <Text style={[styles.number, { color: theme.text }]}>
+            {post.shares}
+          </Text>
+        </View>
+
+        <View style={styles.spacer} />
+
+        <Text style={[styles.action, { color: theme.text }]}>□</Text>
       </View>
 
-      {/* Likes */}
-      <Text style={styles.likes}>{post.likes} likes</Text>
+      <View style={styles.content}>
+        <View style={styles.captionContainer}>
+          <Text style={[styles.username, { color: theme.text }]}>
+            {post.username}
+          </Text>
 
-      {/* Caption */}
-      <View style={styles.captionContainer}>
-        <Text style={styles.username}>{post.username}</Text>
-        <Text style={styles.caption}> {post.caption}</Text>
+          <Text style={[styles.caption, { color: theme.text }]}>
+            {' '}
+            {post.caption}
+          </Text>
+        </View>
       </View>
     </View>
   );
@@ -54,81 +95,66 @@ export default function PostCard({ post, onPress }: PostCardProps) {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: "#ffffff",
     marginBottom: 12,
+    borderBottomWidth: 1,
   },
-
   header: {
     height: 56,
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     paddingHorizontal: 12,
   },
-
   profilePicture: {
     width: 36,
     height: 36,
     borderRadius: 18,
-    backgroundColor: "#1689c7",
-    justifyContent: "center",
-    alignItems: "center",
   },
-
-  profileText: {
-    color: "#ffffff",
-    fontSize: 12,
-    fontWeight: "bold",
-  },
-
   headerInfo: {
     flex: 1,
     marginLeft: 10,
   },
-
   username: {
     fontSize: 14,
-    fontWeight: "600",
+    fontWeight: '600',
   },
-
   location: {
     fontSize: 12,
-    color: "#777777",
     marginTop: 2,
   },
-
   image: {
-    width: "100%",
+    width: '100%',
     height: 400,
-    resizeMode: "contain",
-    backgroundColor: "#f5f5f5",
+    resizeMode: 'cover',
   },
-
   actions: {
-    height: 48,
-    flexDirection: "row",
-    alignItems: "center",
+    height: 58,
+    flexDirection: 'row',
+    alignItems: 'center',
     paddingHorizontal: 12,
-    gap: 24,
+    gap: 20,
   },
-
-  actionText: {
-    fontSize: 14,
-    fontWeight: "600",
+  actionItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
   },
-
-  likes: {
-    fontSize: 14,
-    fontWeight: "600",
+  action: {
+    fontSize: 27,
+    fontWeight: '300',
+  },
+  number: {
+    fontSize: 13,
+  },
+  spacer: {
+    flex: 1,
+  },
+  content: {
     paddingHorizontal: 12,
+    paddingBottom: 14,
   },
-
   captionContainer: {
-    flexDirection: "row",
-    paddingHorizontal: 12,
-    paddingTop: 5,
-    paddingBottom: 12,
+    flexDirection: 'row',
   },
-
   caption: {
     fontSize: 14,
     flex: 1,
