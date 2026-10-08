@@ -1,3 +1,4 @@
+import { Ionicons } from '@expo/vector-icons';
 import {
   Image,
   Pressable,
@@ -44,6 +45,12 @@ export default function PostCard({ post, onPress }: PostCardProps) {
             {post.location}
           </Text>
         </View>
+
+        <Ionicons
+          name="ellipsis-horizontal"
+          size={22}
+          color={theme.text}
+        />
       </View>
 
       <Pressable onPress={onPress}>
@@ -52,21 +59,33 @@ export default function PostCard({ post, onPress }: PostCardProps) {
 
       <View style={styles.actions}>
         <View style={styles.actionItem}>
-          <Text style={[styles.action, { color: theme.text }]}>♡</Text>
+          <Ionicons
+            name="heart-outline"
+            size={27}
+            color={theme.text}
+          />
           <Text style={[styles.number, { color: theme.text }]}>
             {post.likes}
           </Text>
         </View>
 
         <View style={styles.actionItem}>
-          <Text style={[styles.action, { color: theme.text }]}>○</Text>
+          <Ionicons
+            name="chatbubble-outline"
+            size={25}
+            color={theme.text}
+          />
           <Text style={[styles.number, { color: theme.text }]}>
             {post.comments}
           </Text>
         </View>
 
         <View style={styles.actionItem}>
-          <Text style={[styles.action, { color: theme.text }]}>➤</Text>
+          <Ionicons
+            name="paper-plane-outline"
+            size={26}
+            color={theme.text}
+          />
           <Text style={[styles.number, { color: theme.text }]}>
             {post.shares}
           </Text>
@@ -74,7 +93,11 @@ export default function PostCard({ post, onPress }: PostCardProps) {
 
         <View style={styles.spacer} />
 
-        <Text style={[styles.action, { color: theme.text }]}>□</Text>
+        <Ionicons
+          name="bookmark-outline"
+          size={27}
+          color={theme.text}
+        />
       </View>
 
       <View style={styles.content}>
@@ -137,10 +160,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 5,
-  },
-  action: {
-    fontSize: 27,
-    fontWeight: '300',
   },
   number: {
     fontSize: 13,
