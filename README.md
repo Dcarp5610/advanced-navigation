@@ -1,56 +1,151 @@
-# Welcome to your Expo app 👋
+# OOTD Everyday
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+An Instagram-inspired multi-screen mobile application built with Expo and React Native for the Advanced Multi-Screen Mobile Application with Collaborative Navigation assignment.
 
-## Get started
+## Overview
 
-1. Install dependencies
+OOTD Everyday is a mobile application based around outfit-of-the-day content. The interface is inspired by Instagram's navigation structure and visual design while using OOTD Everyday branding and outfit content.
 
-   ```bash
-   npm install
-   ```
+The application demonstrates multi-screen navigation, reusable components, dynamic content, interactive elements, and light/dark theme support.
 
-2. Start the app
+## Features
 
-   ```bash
-   npx expo start
-   ```
+- Instagram-inspired mobile interface
+- Five main navigation screens
+- Tab navigation
+- Stack navigation for post details
+- Home feed with stories and posts
+- Reels-style video screen
+- Messages screen
+- Search and Explore screen
+- Profile screen with outfit grid
+- Interactive likes and reposts
+- Dynamic post navigation
+- Light and dark theme support
+- Reusable React Native components
+- TypeScript prop definitions
 
-In the output, you'll find options to open the app in a
+## Screens
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+### Home
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+Displays an Instagram-inspired home feed with:
 
-## Get a fresh project
+- Stories
+- Outfit posts
+- Like, comment, repost, share, and save actions
+- Post detail navigation
 
-When you're ready, run:
+### Reels
 
-```bash
-npm run reset-project
-```
+A Reels-style screen featuring:
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+- Full-screen outfit video
 
-### Other setup steps
+### Messages
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+An Instagram-inspired direct messages screen featuring:
 
-## Learn more
+- Search messages
+- Notes section
+- Messages and Requests
+- Online indicators
+- Unread indicators
+- Message navigation
 
-To learn more about developing your project with Expo, look at the following resources:
+### Search
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+An Explore-style screen featuring:
 
-## Join the community
+- Search functionality
+- Category filters
+- Three-column content grid
+- Video indicators
+- View counts
+- Post detail navigation
 
-Join our community of developers creating universal apps.
+### Profile
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+The OOTD Everyday profile includes:
+
+- Profile information
+- Post, follower, and following counts
+- Edit Profile and Share Profile buttons
+- Profile content tabs
+- Outfit photo grid
+- Navigation to individual posts
+
+## Navigation
+
+The application uses both tab and stack navigation.
+
+### Tab Navigation
+
+The bottom navigation contains:
+
+1. Home
+2. Reels
+3. Messages
+4. Search
+5. Profile
+
+### Stack Navigation
+
+
+Home / Search / Profile → Post Details
+
+
+## Project Structure
+
+```text
+OOTDApp
+├── assets
+│   ├── Outfits
+│   └── Reels
+│
+├── src
+│   ├── app
+│   │   ├── (tabs)
+│   │   │   ├── index.tsx
+│   │   │   ├── create.tsx
+│   │   │   ├── activity.tsx
+│   │   │   ├── search.tsx
+│   │   │   ├── profile.tsx
+│   │   │   └── _layout.tsx
+│   │   │
+│   │   ├── post
+│   │   │   └── [id].tsx
+│   │   │
+│   │   └── _layout.tsx
+│   │
+│   ├── components
+│   │   ├── PostCard.tsx
+│   │   ├── StoryRow.tsx
+│   │   ├── PostInteractionContext.tsx
+│   │   └── app-tabs.tsx
+│   │
+│   ├── constants
+│   │   └── theme.ts
+│   │
+│   └── data
+│       └── post.ts
+│
+├── app.json
+├── package.json
+└── README.md
+
+## AI Usage
+
+AI tools were used throughout the development of this project as a development support resource.
+
+AI assistance was used for:
+
+- Understanding and explaining Expo and React Native concepts
+- Troubleshooting errors and debugging issues
+- Assisting with Expo Router and navigation implementation
+- Reviewing and improving React Native and TypeScript code
+- Providing suggestions for UI layout and styling
+- Helping organize reusable components
+- Assisting with project documentation and README creation
+
+AI was used as a development aid, while the project was built and integrated by me. I reviewed, modified, tested, and adapted the AI-assisted code and suggestions to meet the assignment requirements and the intended design.
