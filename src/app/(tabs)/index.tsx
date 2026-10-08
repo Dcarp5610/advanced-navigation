@@ -1,3 +1,4 @@
+import { router } from 'expo-router';
 import {
   FlatList,
   StyleSheet,
@@ -8,9 +9,9 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import PostCard from '@/components/PostCard';
+import StoryRow from '@/components/StoryRow';
 import { Colors } from '@/constants/theme';
 import { homePosts } from '@/data/post';
-import StoryRow from '../components/StoryRow';
 
 export default function HomeScreen() {
   const colorScheme = useColorScheme();
@@ -30,7 +31,9 @@ export default function HomeScreen() {
           },
         ]}
       >
-        <Text style={[styles.headerButton, { color: theme.text }]}>+</Text>
+        <Text style={[styles.headerButton, { color: theme.text }]}>
+          +
+        </Text>
 
         <Text style={[styles.logo, { color: theme.text }]}>
           Instagram
@@ -49,7 +52,14 @@ export default function HomeScreen() {
         renderItem={({ item }) => (
           <PostCard
             post={item}
-            onPress={() => console.log(`Post ${item.id} pressed`)}
+            onDetailsPress={() =>
+              router.push({
+                pathname: '/post/[id]',
+                params: {
+                  id: item.id.toString(),
+                },
+              })
+            }
           />
         )}
         showsVerticalScrollIndicator={false}

@@ -1,4 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
+import { useRef, useState } from 'react';
 import {
   Image,
   Pressable,
@@ -13,12 +14,44 @@ import { Post } from '@/data/post';
 
 interface PostCardProps {
   post: Post;
-  onPress: () => void;
+  onDetailsPress: () => void;
 }
 
-export default function PostCard({ post, onPress }: PostCardProps) {
+export default function PostCard({
+  post,
+  onDetailsPress,
+}: PostCardProps) {
   const colorScheme = useColorScheme();
   const theme = Colors[colorScheme === 'dark' ? 'dark' : 'light'];
+
+  const [liked, setLiked] = useState(false);
+  const [reposted, setReposted] = useState(false);
+
+  const lastTap = useRef(0);
+
+  const likeCount = liked ? post.likes + 1 : post.likes;
+  const repostCount = reposted ? post.shares + 1 : post.shares;
+
+  const handleLike = () => {
+    setLiked((current) => !current);
+  };
+
+  const handleRepost = () => {
+    setReposted((current) => !current);
+  };
+
+  const handleImagePress = () => {
+    const now = Date.now();
+    const timeSinceLastTap = now - lastTap.current;
+
+    if (timeSinceLastTap < 300) {
+      handleLike();
+      lastTap.current = 0;
+      return;
+    }
+
+    lastTap.current = now;
+  };
 
   return (
     <View
@@ -41,33 +74,41 @@ export default function PostCard({ post, onPress }: PostCardProps) {
             {post.username}
           </Text>
 
-          <Text style={[styles.location, { color: theme.secondaryText }]}>
+          <Text
+            style={[
+              styles.location,
+              { color: theme.secondaryText },
+            ]}
+          >
             {post.location}
           </Text>
         </View>
 
-        <Ionicons
-          name="ellipsis-horizontal"
-          size={22}
-          color={theme.text}
-        />
+        <Pressable onPress={onDetailsPress}>
+          <Ionicons
+            name="ellipsis-horizontal"
+            size={22}
+            color={theme.text}
+          />
+        </Pressable>
       </View>
 
-      <Pressable onPress={onPress}>
+      <Pressable onPress={handleImagePress}>
         <Image source={post.image} style={styles.image} />
       </Pressable>
 
       <View style={styles.actions}>
-        <View style={styles.actionItem}>
+        <Pressable style={styles.actionItem} onPress={handleLike}>
           <Ionicons
-            name="heart-outline"
+            name={liked ? 'heart' : 'heart-outline'}
             size={27}
-            color={theme.text}
+            color={liked ? '#ed4956' : theme.text}
           />
+
           <Text style={[styles.number, { color: theme.text }]}>
-            {post.likes}
+            {likeCount}
           </Text>
-        </View>
+        </Pressable>
 
         <View style={styles.actionItem}>
           <Ionicons
@@ -75,10 +116,23 @@ export default function PostCard({ post, onPress }: PostCardProps) {
             size={25}
             color={theme.text}
           />
+
           <Text style={[styles.number, { color: theme.text }]}>
             {post.comments}
           </Text>
         </View>
+
+        <Pressable style={styles.actionItem} onPress={handleRepost}>
+          <Ionicons
+            name="repeat-outline"
+            size={27}
+            color={reposted ? '#0095f6' : theme.text}
+          />
+
+          <Text style={[styles.number, { color: theme.text }]}>
+            {repostCount}
+          </Text>
+        </Pressable>
 
         <View style={styles.actionItem}>
           <Ionicons
@@ -86,6 +140,7 @@ export default function PostCard({ post, onPress }: PostCardProps) {
             size={26}
             color={theme.text}
           />
+
           <Text style={[styles.number, { color: theme.text }]}>
             {post.shares}
           </Text>
@@ -154,7 +209,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 12,
-    gap: 20,
+    gap: 16,
   },
   actionItem: {
     flexDirection: 'row',
