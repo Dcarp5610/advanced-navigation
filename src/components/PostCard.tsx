@@ -1,5 +1,10 @@
+// Provides the icons used for the post actions.
 import { Ionicons } from '@expo/vector-icons';
+
+// useRef is used to detect double taps on the post image.
 import { useRef } from 'react';
+
+// React Native components used to build the reusable PostCard.
 import {
   Image,
   Pressable,
@@ -9,54 +14,90 @@ import {
   useColorScheme,
 } from 'react-native';
 
+// Provides the application's light and dark theme colours.
 import { Colors } from '@/constants/theme';
+
+// Imports the TypeScript Post interface used to describe post data.
 import { Post } from '@/data/post';
+
+// Provides shared like and repost state across the application.
 import { usePostInteractions } from './PostInteractionContext';
 
+// Defines the props that the PostCard component expects.
 interface PostCardProps {
+  // The post information that should be displayed.
   post: Post;
+
+  // Function used to open the Post Details screen.
   onDetailsPress: () => void;
 }
 
+// Reusable component for displaying an individual post.
 export default function PostCard({
   post,
   onDetailsPress,
 }: PostCardProps) {
-  const colorScheme = useColorScheme();
-  const theme = Colors[colorScheme === 'dark' ? 'dark' : 'light'];
 
+  // Gets the current device colour scheme.
+  const colorScheme = useColorScheme();
+
+  // Selects the appropriate light or dark theme.
+  const theme =
+    Colors[colorScheme === 'dark' ? 'dark' : 'light'];
+
+  // Gets the shared interaction functions and state.
   const {
     getInteraction,
     toggleLike,
     toggleRepost,
   } = usePostInteractions();
 
+  // Gets the current like/repost state for this specific post.
   const interaction = getInteraction(post.id);
 
+  // Stores the time of the previous image tap.
+  // This allows us to detect a double tap.
   const lastTap = useRef(0);
 
+  // Adds one like to the original count when the post is liked.
   const likeCount = interaction.liked
     ? post.likes + 1
     : post.likes;
 
+  // Adds one repost to the original share count when the post is reposted.
   const repostCount = interaction.reposted
     ? post.shares + 1
     : post.shares;
 
+  // Handles taps on the post image.
   const handleImagePress = () => {
-    const now = Date.now();
-    const timeSinceLastTap = now - lastTap.current;
 
+    // Gets the current time in milliseconds.
+    const now = Date.now();
+
+    // Calculates how much time has passed since the previous tap.
+    const timeSinceLastTap =
+      now - lastTap.current;
+
+    // If the second tap happens within 300 milliseconds,
+    // the image is treated as a double tap.
     if (timeSinceLastTap < 300) {
+
+      // Double tapping the image likes the post.
       toggleLike(post.id);
+
+      // Resets the previous tap time.
       lastTap.current = 0;
+
       return;
     }
 
+    // Stores the current tap time for comparison with the next tap.
     lastTap.current = now;
   };
 
   return (
+    // Main container for one post.
     <View
       style={[
         styles.container,
@@ -66,13 +107,20 @@ export default function PostCard({
         },
       ]}
     >
+
+      {/* Post header containing the profile picture, username, location, and menu. */}
       <View style={styles.header}>
+
+        {/* Displays the user's profile picture. */}
         <Image
           source={{ uri: post.profileImage }}
           style={styles.profilePicture}
         />
 
+        {/* Contains the username and location. */}
         <View style={styles.headerInfo}>
+
+          {/* Displays the username. */}
           <Text
             style={[
               styles.username,
@@ -82,6 +130,7 @@ export default function PostCard({
             {post.username}
           </Text>
 
+          {/* Displays the post location. */}
           <Text
             style={[
               styles.location,
@@ -92,6 +141,7 @@ export default function PostCard({
           </Text>
         </View>
 
+        {/* Opens the Post Details screen when pressed. */}
         <Pressable onPress={onDetailsPress}>
           <Ionicons
             name="ellipsis-horizontal"
@@ -101,6 +151,7 @@ export default function PostCard({
         </Pressable>
       </View>
 
+      {/* Post image. A double tap likes the post. */}
       <Pressable onPress={handleImagePress}>
         <Image
           source={post.image}
@@ -108,18 +159,24 @@ export default function PostCard({
         />
       </Pressable>
 
+      {/* Row containing all post interaction buttons. */}
       <View style={styles.actions}>
+
+        {/* Like button. */}
         <Pressable
           style={styles.actionItem}
           onPress={() => toggleLike(post.id)}
         >
           <Ionicons
+            // Changes between an outline and filled heart.
             name={
               interaction.liked
                 ? 'heart'
                 : 'heart-outline'
             }
             size={27}
+
+            // Changes the heart colour when the post is liked.
             color={
               interaction.liked
                 ? '#ed4956'
@@ -127,6 +184,7 @@ export default function PostCard({
             }
           />
 
+          {/* Displays the current like count. */}
           <Text
             style={[
               styles.number,
@@ -137,6 +195,7 @@ export default function PostCard({
           </Text>
         </Pressable>
 
+        {/* Comment display. */}
         <View style={styles.actionItem}>
           <Ionicons
             name="chatbubble-outline"
@@ -144,6 +203,7 @@ export default function PostCard({
             color={theme.text}
           />
 
+          {/* Displays the number of comments. */}
           <Text
             style={[
               styles.number,
@@ -154,6 +214,7 @@ export default function PostCard({
           </Text>
         </View>
 
+        {/* Repost button. */}
         <Pressable
           style={styles.actionItem}
           onPress={() => toggleRepost(post.id)}
@@ -161,6 +222,8 @@ export default function PostCard({
           <Ionicons
             name="repeat-outline"
             size={27}
+
+            // Changes the icon colour when the post is reposted.
             color={
               interaction.reposted
                 ? '#0095f6'
@@ -168,6 +231,7 @@ export default function PostCard({
             }
           />
 
+          {/* Displays the current repost count. */}
           <Text
             style={[
               styles.number,
@@ -178,6 +242,7 @@ export default function PostCard({
           </Text>
         </Pressable>
 
+        {/* Share display. */}
         <View style={styles.actionItem}>
           <Ionicons
             name="paper-plane-outline"
@@ -185,6 +250,7 @@ export default function PostCard({
             color={theme.text}
           />
 
+          {/* Displays the number of shares. */}
           <Text
             style={[
               styles.number,
@@ -195,8 +261,10 @@ export default function PostCard({
           </Text>
         </View>
 
+        {/* Pushes the bookmark icon to the far right. */}
         <View style={styles.spacer} />
 
+        {/* Bookmark icon. */}
         <Ionicons
           name="bookmark-outline"
           size={27}
@@ -204,8 +272,13 @@ export default function PostCard({
         />
       </View>
 
+      {/* Caption section below the interaction buttons. */}
       <View style={styles.content}>
+
+        {/* Places the username and caption on the same line. */}
         <View style={styles.captionContainer}>
+
+          {/* Displays the username before the caption. */}
           <Text
             style={[
               styles.username,
@@ -215,6 +288,7 @@ export default function PostCard({
             {post.username}
           </Text>
 
+          {/* Displays the post caption. */}
           <Text
             style={[
               styles.caption,
@@ -230,12 +304,16 @@ export default function PostCard({
   );
 }
 
+// Styles used by the reusable PostCard component.
 const styles = StyleSheet.create({
+
+  // Main post container.
   container: {
     marginBottom: 12,
     borderBottomWidth: 1,
   },
 
+  // Header containing the profile information.
   header: {
     height: 56,
     flexDirection: 'row',
@@ -243,33 +321,39 @@ const styles = StyleSheet.create({
     paddingHorizontal: 12,
   },
 
+  // Circular profile picture.
   profilePicture: {
     width: 36,
     height: 36,
     borderRadius: 18,
   },
 
+  // Allows the username/location section to use the remaining space.
   headerInfo: {
     flex: 1,
     marginLeft: 10,
   },
 
+  // Username styling.
   username: {
     fontSize: 14,
     fontWeight: '600',
   },
 
+  // Location text styling.
   location: {
     fontSize: 12,
     marginTop: 2,
   },
 
+  // Main post image.
   image: {
     width: '100%',
     height: 400,
     resizeMode: 'cover',
   },
 
+  // Horizontal row containing the post actions.
   actions: {
     height: 58,
     flexDirection: 'row',
@@ -278,29 +362,36 @@ const styles = StyleSheet.create({
     gap: 16,
   },
 
+  // Layout shared by each action and its number.
   actionItem: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 5,
   },
 
+  // Styling for interaction counts.
   number: {
     fontSize: 13,
   },
 
+  // Takes up the remaining horizontal space,
+  // pushing the bookmark icon to the right.
   spacer: {
     flex: 1,
   },
 
+  // Caption area below the actions.
   content: {
     paddingHorizontal: 12,
     paddingBottom: 14,
   },
 
+  // Places the username and caption beside each other.
   captionContainer: {
     flexDirection: 'row',
   },
 
+  // Styling for the caption text.
   caption: {
     fontSize: 14,
     flex: 1,

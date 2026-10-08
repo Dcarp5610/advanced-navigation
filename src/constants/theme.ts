@@ -1,6 +1,8 @@
+// Main tint colours for each theme.
 const tintColorLight = '#000000';
 const tintColorDark = '#ffffff';
 
+// Shared colours for light and dark mode.
 export const Colors = {
   light: {
     text: '#000000',
@@ -10,6 +12,7 @@ export const Colors = {
     secondaryText: '#777777',
     tint: tintColorLight,
   },
+
   dark: {
     text: '#ffffff',
     background: '#000000',

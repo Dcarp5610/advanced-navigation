@@ -1,3 +1,4 @@
+// React Native components used to create the horizontal stories section.
 import {
   Image,
   ScrollView,
@@ -7,8 +8,10 @@ import {
   useColorScheme,
 } from 'react-native';
 
+// Provides the application's light and dark theme colours.
 import { Colors } from '@/constants/theme';
 
+// Sample story data displayed across the top of the Home feed.
 const stories = [
   {
     id: 1,
@@ -48,11 +51,18 @@ const stories = [
   },
 ];
 
+// Reusable component that displays the horizontal stories section.
 export default function StoryRow() {
+
+  // Gets the current device colour scheme.
   const colorScheme = useColorScheme();
-  const theme = Colors[colorScheme === 'dark' ? 'dark' : 'light'];
+
+  // Selects the appropriate light or dark theme.
+  const theme =
+    Colors[colorScheme === 'dark' ? 'dark' : 'light'];
 
   return (
+    // Container around the entire stories section.
     <View
       style={[
         styles.container,
@@ -62,36 +72,65 @@ export default function StoryRow() {
         },
       ]}
     >
+
+      {/* Allows the stories to scroll horizontally. */}
       <ScrollView
         horizontal
+
+        // Hides the horizontal scroll bar for a cleaner Instagram-style design.
         showsHorizontalScrollIndicator={false}
+
+        // Adds spacing around the stories.
         contentContainerStyle={styles.storyList}
       >
+
+        {/* Creates a story item for every object in the stories array. */}
         {stories.map((story) => (
-          <View key={story.id} style={styles.story}>
+
+          // Uses the story's unique ID as the React key.
+          <View
+            key={story.id}
+            style={styles.story}
+          >
+
+            {/* Circular border surrounding each story image. */}
             <View style={styles.storyBorder}>
+
+              {/* Displays the user's story profile image. */}
               <Image
                 source={{ uri: story.image }}
                 style={styles.storyImage}
               />
 
+              {/* Only displays the plus button for Your Story. */}
               {story.ownStory && (
                 <View
                   style={[
                     styles.addButton,
                     {
+                      // Changes the plus button background
+                      // depending on the current theme.
                       backgroundColor:
-                        colorScheme === 'dark' ? '#ffffff' : '#000000',
+                        colorScheme === 'dark'
+                          ? '#ffffff'
+                          : '#000000',
+
+                      // Uses the app background as the button border.
                       borderColor: theme.background,
                     },
                   ]}
                 >
+
+                  {/* Plus symbol used to add a new story. */}
                   <Text
                     style={[
                       styles.addText,
                       {
+                        // Makes the plus symbol contrast with the button.
                         color:
-                          colorScheme === 'dark' ? '#000000' : '#ffffff',
+                          colorScheme === 'dark'
+                            ? '#000000'
+                            : '#ffffff',
                       },
                     ]}
                   >
@@ -101,8 +140,12 @@ export default function StoryRow() {
               )}
             </View>
 
+            {/* Displays the username underneath the story image. */}
             <Text
-              style={[styles.username, { color: theme.text }]}
+              style={[
+                styles.username,
+                { color: theme.text },
+              ]}
               numberOfLines={1}
             >
               {story.username}
@@ -114,19 +157,28 @@ export default function StoryRow() {
   );
 }
 
+// Styles used by the StoryRow component.
 const styles = StyleSheet.create({
+
+  // Container around the stories with a bottom border.
   container: {
     borderBottomWidth: 1,
   },
+
+  // Controls the horizontal scrolling area's spacing.
   storyList: {
     paddingHorizontal: 12,
     paddingVertical: 14,
   },
+
+  // Controls the width and alignment of each individual story.
   story: {
     width: 100,
     alignItems: 'center',
     marginRight: 2,
   },
+
+  // Creates the circular coloured border around each story.
   storyBorder: {
     width: 88,
     height: 88,
@@ -138,11 +190,16 @@ const styles = StyleSheet.create({
     position: 'relative',
     marginBottom: 7,
   },
+
+  // Makes each story profile image circular.
   storyImage: {
     width: 78,
     height: 78,
     borderRadius: 39,
   },
+
+  // Positions the plus button over the bottom-right
+  // of the Your Story profile image.
   addButton: {
     position: 'absolute',
     right: -2,
@@ -154,11 +211,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+
+  // Styling for the plus symbol.
   addText: {
     fontSize: 22,
     fontWeight: '400',
     lineHeight: 24,
   },
+
+  // Styling for the username underneath each story.
   username: {
     fontSize: 12,
     maxWidth: 94,

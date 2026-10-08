@@ -1,6 +1,12 @@
+// Icons used for the post actions and back button.
 import { Ionicons } from '@expo/vector-icons';
+
+// Provides navigation and access to the post ID from the URL.
 import { useLocalSearchParams, useRouter } from 'expo-router';
+
+// Used to detect double-taps on the post image.
 import { useRef } from 'react';
+
 import {
   Image,
   Pressable,
@@ -21,30 +27,40 @@ import {
 } from '@/data/post';
 
 export default function PostDetailsScreen() {
+  // Gets the post ID passed through the navigation route.
   const { id } = useLocalSearchParams<{ id: string }>();
+
+  // Provides navigation methods such as going back.
   const router = useRouter();
 
+  // Gets the current device colour scheme.
   const colorScheme = useColorScheme();
   const theme = Colors[colorScheme === 'dark' ? 'dark' : 'light'];
 
+  // Gets the shared like and repost functions.
   const {
     getInteraction,
     toggleLike,
     toggleRepost,
   } = usePostInteractions();
 
+  // Stores the time of the previous image tap.
   const lastTap = useRef(0);
 
+  // Combines all post collections so any post can be opened
+  // from Home, Search, or Profile.
   const allPosts = [
     ...homePosts,
     ...explorePosts,
     ...profilePosts,
   ];
 
+  // Finds the post matching the ID from the navigation route.
   const post = allPosts.find(
     (item) => item.id.toString() === id,
   );
 
+  // Displays an error if the requested post cannot be found.
   if (!post) {
     return (
       <SafeAreaView
@@ -78,16 +94,20 @@ export default function PostDetailsScreen() {
     );
   }
 
+  // Gets the current interaction state for this post.
   const interaction = getInteraction(post.id);
 
+  // Updates the displayed like count when the post is liked.
   const likeCount = interaction.liked
     ? post.likes + 1
     : post.likes;
 
+  // Updates the displayed repost count when the post is reposted.
   const repostCount = interaction.reposted
     ? post.shares + 1
     : post.shares;
 
+  // Detects a double-tap on the post image to like it.
   const handleImagePress = () => {
     const now = Date.now();
     const timeSinceLastTap = now - lastTap.current;
@@ -109,6 +129,7 @@ export default function PostDetailsScreen() {
       ]}
       edges={['top']}
     >
+      {/* Header with a back button and Post title. */}
       <View
         style={[
           styles.header,
@@ -145,6 +166,7 @@ export default function PostDetailsScreen() {
         showsVerticalScrollIndicator={false}
         style={{ backgroundColor: theme.background }}
       >
+        {/* Post owner's profile information. */}
         <View style={styles.userSection}>
           <Image
             source={{ uri: post.profileImage }}
@@ -178,6 +200,7 @@ export default function PostDetailsScreen() {
           />
         </View>
 
+        {/* Double-tapping the image likes the post. */}
         <Pressable onPress={handleImagePress}>
           <Image
             source={post.image}
@@ -185,6 +208,7 @@ export default function PostDetailsScreen() {
           />
         </Pressable>
 
+        {/* Post interaction buttons. */}
         <View style={styles.actions}>
           <Pressable
             style={styles.actionItem}
@@ -283,6 +307,7 @@ export default function PostDetailsScreen() {
           </Pressable>
         </View>
 
+        {/* Displays the post caption. */}
         <View style={styles.content}>
           <View style={styles.captionContainer}>
             <Text
