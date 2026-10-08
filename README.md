@@ -14,13 +14,15 @@ The application demonstrates multi-screen navigation, reusable components, dynam
 - Five main navigation screens
 - Tab navigation
 - Stack navigation for post details
-- Home feed with stories and posts
+- Home feed with stories and outfit posts
 - Reels-style video screen
-- Messages screen
+- Instagram-inspired Messages screen
 - Search and Explore screen
 - Profile screen with outfit grid
-- Interactive likes and reposts
+- Interactive post likes and reposts
+- Double-tap post liking
 - Dynamic post navigation
+- Search filtering
 - Light and dark theme support
 - Reusable React Native components
 - TypeScript prop definitions
@@ -31,46 +33,59 @@ The application demonstrates multi-screen navigation, reusable components, dynam
 
 Displays an Instagram-inspired home feed with:
 
-- Stories
+- Stories row
 - Outfit posts
-- Like, comment, repost, share, and save actions
-- Post detail navigation
+- Like button
+- Comment count
+- Repost button
+- Share count
+- Save icon
+- Double-tap to like a post
+- Navigation to individual post details
 
 ### Reels
 
 A Reels-style screen featuring:
 
 - Full-screen outfit video
+- Instagram-inspired overlay controls
+- Outfit profile and caption overlay
+- Reels navigation styling
 
 ### Messages
 
 An Instagram-inspired direct messages screen featuring:
 
-- Search messages
+- Account header
+- Search bar
 - Notes section
-- Messages and Requests
-- Online indicators
-- Unread indicators
-- Message navigation
+- Map section
+- Messages and Requests labels
+- Static message list
+- Profile pictures
+- Online status indicators
+- Unread message indicators
 
 ### Search
 
 An Explore-style screen featuring:
 
-- Search functionality
-- Category filters
-- Three-column content grid
+- Search bar
+- Search filtering by username, caption, or location
+- Category filter buttons
+- Three-column outfit grid
 - Video indicators
-- View counts
-- Post detail navigation
+- Video view counts
+- Navigation to individual posts
 
 ### Profile
 
-The OOTD Everyday profile includes:
+The OOTD Everyday profile screen featuring:
 
 - Profile information
 - Post, follower, and following counts
-- Edit Profile and Share Profile buttons
+- Edit Profile button
+- Share Profile button
 - Profile content tabs
 - Outfit photo grid
 - Navigation to individual posts
@@ -91,8 +106,24 @@ The bottom navigation contains:
 
 ### Stack Navigation
 
+Post details are handled using stack navigation.
 
-Home / Search / Profile → Post Details
+Posts can be opened from:
+
+- Home
+- Search
+- Profile
+
+The Post Details screen uses a dynamic route based on the selected post ID.
+
+Home
+  └── Post Details
+
+Search
+  └── Post Details
+
+Profile
+  └── Post Details
 
 ## AI Usage
 
@@ -112,7 +143,6 @@ AI was used as a development aid, while the project was built and integrated by 
 
 ## Project Structure
 
-```text
 OOTDApp
 ├── assets
 │   ├── Outfits
@@ -148,5 +178,3 @@ OOTDApp
 ├── app.json
 ├── package.json
 └── README.md
-
-
