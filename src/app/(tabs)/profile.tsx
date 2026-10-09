@@ -21,11 +21,7 @@ const imageHeight = imageWidth * 1.33;
 
 export default function ProfileScreen() {
   const colorScheme = useColorScheme();
-  const isDark = colorScheme === 'dark';
-  const theme = Colors[isDark ? 'dark' : 'light'];
-
-  const profileBadgeBackground = isDark ? '#ffffff' : '#000000';
-  const profileBadgeIcon = isDark ? '#000000' : '#ffffff';
+  const theme = Colors[colorScheme === 'dark' ? 'dark' : 'light'];
 
   return (
     <SafeAreaView
@@ -100,15 +96,15 @@ export default function ProfileScreen() {
                   style={[
                     styles.profileAddButton,
                     {
-                      backgroundColor: profileBadgeBackground,
-                      borderColor: profileBadgeIcon,
+                      backgroundColor: theme.background,
+                      borderColor: theme.text,
                     },
                   ]}
                 >
                   <Ionicons
                     name="add"
                     size={19}
-                    color={profileBadgeIcon}
+                    color={theme.text}
                   />
                 </View>
               </View>
@@ -366,7 +362,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 25,
     paddingTop: 2,
-    paddingBottom: 23,
+    paddingBottom: 20,
   },
 
   profilePictureContainer: {
@@ -426,8 +422,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     paddingHorizontal: 21,
     gap: 7,
-    marginTop: 8,
-    marginBottom: 6,
+    marginTop: 5,
+    marginBottom: 3,
   },
 
   profileButton: {
@@ -452,7 +448,7 @@ const styles = StyleSheet.create({
   },
 
   contentTabs: {
-    height: 52,
+    height: 47,
     flexDirection: 'row',
   },
 

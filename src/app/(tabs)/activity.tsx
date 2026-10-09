@@ -21,7 +21,6 @@ interface Message {
   online: boolean;
 }
 
-// Static message data used to populate the Messages screen.
 const messages: Message[] = [
   {
     id: 1,
@@ -89,41 +88,25 @@ const messages: Message[] = [
 ];
 
 const screenWidth = Dimensions.get('window').width;
+const profileImage = require('../../../assets/Outfits/outfit1.jpg');
 
 export default function MessagesScreen() {
   return (
     <SafeAreaView style={styles.container} edges={['top']}>
-      {/* Instagram-style Messages header */}
       <View style={styles.header}>
         <View style={styles.headerTitle}>
           <Text style={styles.username}>ootd.everyday</Text>
-
-          <Ionicons
-            name="chevron-down"
-            size={16}
-            color="#ffffff"
-          />
-
+          <Ionicons name="chevron-down" size={15} color="#ffffff" />
           <View style={styles.notificationDot} />
         </View>
 
         <Pressable style={styles.composeButton}>
-          <Ionicons
-            name="create-outline"
-            size={27}
-            color="#ffffff"
-          />
+          <Ionicons name="create-outline" size={25} color="#ffffff" />
         </Pressable>
       </View>
 
-      {/* Search bar */}
       <View style={styles.searchContainer}>
-        <Ionicons
-          name="search"
-          size={18}
-          color="#9a9da7"
-        />
-
+        <Ionicons name="search" size={18} color="#9a9da7" />
         <TextInput
           placeholder="Search"
           placeholderTextColor="#9a9da7"
@@ -131,7 +114,6 @@ export default function MessagesScreen() {
         />
       </View>
 
-      {/* Notes and Map section */}
       <View style={styles.notesRow}>
         <View style={styles.noteItem}>
           <View style={styles.noteBubble}>
@@ -141,56 +123,28 @@ export default function MessagesScreen() {
           </View>
 
           <View style={styles.noteImageWrapper}>
-            <Image
-              source={{
-                uri: 'https://picsum.photos/id/1027/150/150',
-              }}
-              style={styles.noteImage}
-            />
-
-            <View style={styles.plusBadge}>
-              <Text style={styles.plusText}>+</Text>
-            </View>
+            <Image source={profileImage} style={styles.noteImage} />
           </View>
 
-          <Text style={styles.noteTitle}>
-            Your note
-          </Text>
-
-          <Text style={styles.noteSubtitle}>
-            📍 Location off
-          </Text>
+          <Text style={styles.noteTitle}>Your note</Text>
+          <Text style={styles.noteSubtitle}> Location off</Text>
         </View>
 
         <View style={styles.mapItem}>
           <View style={styles.mapCircle}>
-            <Ionicons
-              name="globe-outline"
-              size={38}
-              color="#7090ff"
-            />
+            <Ionicons name="globe-outline" size={36} color="#7090ff" />
           </View>
-
-          <Text style={styles.noteTitle}>
-            Map
-          </Text>
+          <Text style={styles.noteTitle}>Map</Text>
         </View>
       </View>
 
-      {/* Messages and Requests navigation */}
       <View style={styles.messagesHeader}>
-        <Text style={styles.messagesTitle}>
-          Messages
-        </Text>
-
+        <Text style={styles.messagesTitle}>Messages</Text>
         <Pressable>
-          <Text style={styles.requestsText}>
-            Requests
-          </Text>
+          <Text style={styles.requestsText}>Requests</Text>
         </Pressable>
       </View>
 
-      {/* Static message list */}
       <FlatList
         data={messages}
         keyExtractor={(item) => item.id.toString()}
@@ -198,27 +152,19 @@ export default function MessagesScreen() {
         contentContainerStyle={styles.messageList}
         renderItem={({ item }) => (
           <View style={styles.messageRow}>
-            {/* Profile picture and online status */}
             <View style={styles.profileWrapper}>
               <Image
-                source={{
-                  uri: item.profileImage,
-                }}
-                style={styles.profileImage}
+                source={{ uri: item.profileImage }}
+                style={styles.messageProfileImage}
               />
-
-              {item.online && (
-                <View style={styles.onlineDot} />
-              )}
+              {item.online && <View style={styles.onlineDot} />}
             </View>
 
-            {/* Username and message preview */}
             <View style={styles.messageContent}>
               <Text
                 style={[
                   styles.messageUsername,
-                  item.unread &&
-                    styles.unreadUsername,
+                  item.unread && styles.unreadUsername,
                 ]}
               >
                 {item.username}
@@ -229,8 +175,7 @@ export default function MessagesScreen() {
                   numberOfLines={1}
                   style={[
                     styles.messagePreview,
-                    item.unread &&
-                      styles.unreadPreview,
+                    item.unread && styles.unreadPreview,
                   ]}
                 >
                   {item.message}
@@ -238,22 +183,14 @@ export default function MessagesScreen() {
 
                 {item.time !== '' && (
                   <>
-                    <Text style={styles.separator}>
-                      {' · '}
-                    </Text>
-
-                    <Text style={styles.messageTime}>
-                      {item.time}
-                    </Text>
+                    <Text style={styles.separator}> · </Text>
+                    <Text style={styles.messageTime}>{item.time}</Text>
                   </>
                 )}
               </View>
             </View>
 
-            {/* Shows a dot for unread messages */}
-            {item.unread && (
-              <View style={styles.unreadDot} />
-            )}
+            {item.unread && <View style={styles.unreadDot} />}
           </View>
         )}
       />
@@ -266,262 +203,209 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#080b11',
   },
-
   header: {
-    height: 64,
+    height: 58,
     position: 'relative',
     alignItems: 'center',
     justifyContent: 'center',
   },
-
   headerTitle: {
     flexDirection: 'row',
     alignItems: 'center',
   },
-
   username: {
     color: '#ffffff',
-    fontSize: 22,
+    fontSize: 20,
     fontWeight: '700',
+    marginRight: 4,
   },
-
   notificationDot: {
-    width: 8,
-    height: 8,
+    width: 7,
+    height: 7,
     borderRadius: 4,
     backgroundColor: '#ff3040',
     marginLeft: 6,
   },
-
   composeButton: {
     position: 'absolute',
-    right: 22,
-    top: 11,
-    width: 40,
-    height: 40,
+    right: 20,
+    top: 9,
+    width: 36,
+    height: 36,
     alignItems: 'center',
     justifyContent: 'center',
   },
-
   searchContainer: {
-    height: 46,
-    width: screenWidth - 48,
-    marginLeft: 24,
-    marginTop: 0,
-    marginBottom: 10,
-    paddingHorizontal: 13,
-    borderRadius: 11,
+    height: 42,
+    width: screenWidth - 44,
+    marginLeft: 22,
+    marginBottom: 8,
+    paddingHorizontal: 12,
+    borderRadius: 10,
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#24272f',
   },
-
   searchInput: {
     flex: 1,
-    height: 46,
+    height: 42,
     marginLeft: 7,
     color: '#ffffff',
-    fontSize: 16,
+    fontSize: 15,
   },
-
   notesRow: {
-    height: 185,
+    height: 175,
     position: 'relative',
   },
-
   noteItem: {
     position: 'absolute',
-    left: 42,
+    left: 30,
     top: 0,
-    width: 80,
+    width: 100,
     alignItems: 'center',
   },
-
   mapItem: {
     position: 'absolute',
-    left: 155,
+    left: 140,
     top: 0,
-    width: 80,
+    width: 100,
     alignItems: 'center',
   },
-
   noteBubble: {
     position: 'absolute',
     top: 0,
-    left: -17,
+    left: -5,
     zIndex: 2,
     backgroundColor: '#30343d',
-    borderRadius: 16,
-    paddingHorizontal: 11,
+    borderRadius: 17,
+    paddingHorizontal: 9,
     paddingVertical: 7,
-    width: 110,
+    width: 112,
   },
-
   noteBubbleText: {
     color: '#aeb2bd',
     fontSize: 12,
     lineHeight: 15,
+    textAlign: 'center',
   },
-
   noteImageWrapper: {
-    marginTop: 39,
+    marginTop: 38,
     position: 'relative',
   },
-
   noteImage: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    borderWidth: 2,
+    width: 76,
+    height: 76,
+    borderRadius: 38,
+    borderWidth: 1,
     borderColor: '#3d414b',
   },
-
-  plusBadge: {
-    position: 'absolute',
-    right: -1,
-    bottom: -1,
-    width: 22,
-    height: 22,
-    borderRadius: 11,
-    backgroundColor: '#1683ff',
-    borderWidth: 2,
-    borderColor: '#080b11',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-
-  plusText: {
-    color: '#ffffff',
-    fontSize: 17,
-    fontWeight: '500',
-    lineHeight: 19,
-  },
-
   noteTitle: {
-    color: '#ffffff',
-    fontSize: 14,
+    color: '#aeb2bd',
+    fontSize: 15,
     marginTop: 5,
     textAlign: 'center',
   },
-
   noteSubtitle: {
     color: '#ffffff',
     fontSize: 11,
     fontWeight: '600',
     marginTop: 2,
   },
-
   mapCircle: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
+    width: 76,
+    height: 76,
+    borderRadius: 38,
     backgroundColor: '#1d3d88',
     alignItems: 'center',
     justifyContent: 'center',
-    marginTop: 39,
-    borderWidth: 2,
+    marginTop: 38,
+    borderWidth: 1,
     borderColor: '#29458a',
   },
-
   messagesHeader: {
-    paddingHorizontal: 26,
+    paddingHorizontal: 24,
+    height: 40,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     marginBottom: 2,
   },
-
   messagesTitle: {
     color: '#ffffff',
-    fontSize: 22,
+    fontSize: 21,
     fontWeight: '700',
   },
-
   requestsText: {
     color: '#9ca0ab',
     fontSize: 15,
     fontWeight: '600',
   },
-
   messageList: {
     paddingBottom: 70,
   },
-
   messageRow: {
-    minHeight: 72,
-    paddingHorizontal: 26,
+    minHeight: 68,
+    paddingHorizontal: 24,
     flexDirection: 'row',
     alignItems: 'center',
   },
-
   profileWrapper: {
     position: 'relative',
-    marginRight: 16,
+    marginRight: 14,
   },
-
-  profileImage: {
-    width: 56,
-    height: 56,
-    borderRadius: 28,
+  messageProfileImage: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
   },
-
   onlineDot: {
     position: 'absolute',
     right: 0,
     bottom: 0,
-    width: 15,
-    height: 15,
-    borderRadius: 8,
+    width: 13,
+    height: 13,
+    borderRadius: 7,
     backgroundColor: '#35d35b',
     borderWidth: 2,
     borderColor: '#080b11',
   },
-
   messageContent: {
     flex: 1,
   },
-
   messageUsername: {
     color: '#ffffff',
-    fontSize: 15,
+    fontSize: 14,
     fontWeight: '500',
     marginBottom: 2,
   },
-
   unreadUsername: {
     fontWeight: '700',
   },
-
   previewRow: {
     flexDirection: 'row',
     alignItems: 'center',
     maxWidth: '100%',
   },
-
   messagePreview: {
     color: '#a7aab3',
-    fontSize: 14,
-    maxWidth: '76%',
+    fontSize: 13,
+    flexShrink: 1,
   },
-
   unreadPreview: {
     color: '#ffffff',
     fontWeight: '600',
   },
-
   separator: {
     color: '#777b86',
-    fontSize: 14,
+    fontSize: 13,
   },
-
   messageTime: {
     color: '#8f939d',
-    fontSize: 14,
+    fontSize: 13,
   },
-
   unreadDot: {
-    width: 8,
-    height: 8,
+    width: 7,
+    height: 7,
     borderRadius: 4,
     backgroundColor: '#5b7cff',
     marginLeft: 8,
